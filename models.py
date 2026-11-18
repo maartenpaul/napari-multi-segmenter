@@ -39,6 +39,12 @@ def defaults(name):
     return {k: v[0] for k, v in PARAMS[name].items()}
 
 
+def prefix(name):
+    """The environment installed for this machine: AMD GPU, CPU only, or the default (NVIDIA)."""
+    envs = ENVS / name / ".pixi" / "envs"
+    return next(envs / variant for variant in ("therock", "cpu", "default") if (envs / variant).exists())
+
+
 # The worker keeps its models between calls (task.export); variants load on first use.
 LOAD = {
     "cellpose4": """
@@ -123,8 +129,7 @@ def main(names):
             start = time.perf_counter()
             # appose.wrap() would run Appose's own pixi 0.58, which cannot parse our
             # pixi.toml; the environment is already installed, so use its prefix as is.
-            prefix = ENVS / name / ".pixi" / "envs" / "default"
-            service = appose.custom().base(prefix).build().python()
+            service = appose.custom().base(prefix(name)).build().python()
             services[name] = service
             load_s, out = timed(service, LOAD[name])
             cold = time.perf_counter() - start

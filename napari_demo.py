@@ -14,7 +14,7 @@ import appose
 import numpy as np
 from skimage import data
 
-from models import ENVS, LOAD, PARAMS, RUN, defaults
+from models import LOAD, PARAMS, RUN, defaults, prefix
 
 
 class Presegmenter:
@@ -27,8 +27,7 @@ class Presegmenter:
         start = time.perf_counter()
         service = self._services.get(name)
         if service is None:
-            prefix = ENVS / name / ".pixi" / "envs" / "default"
-            service = appose.custom().base(prefix).build().python()
+            service = appose.custom().base(prefix(name)).build().python()
             self._check(service.task(LOAD[name]).wait_for())
             self._services[name] = service
         shape = list(pixels.shape)

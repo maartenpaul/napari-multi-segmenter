@@ -1,7 +1,10 @@
 [workspace]
 name = "multi-segmenter-cellpose4"
 channels = ["conda-forge"]
-platforms = [{ platform = "linux-64", cuda = "12.8" }]
+platforms = [
+  { platform = "linux-64", cuda = "12.8" },
+  { name = "linux-64-amd", platform = "linux-64" },
+]
 
 [dependencies]
 python = "3.11.*"
@@ -9,3 +12,28 @@ python = "3.11.*"
 [pypi-dependencies]
 appose = ">=0.12,<0.13"
 cellpose = ">=4.2,<5"
+
+# ---- AMD Radeon 780M (gfx1103): `pixi install -e therock` ----
+# AMD's TheRock nightly wheels, built natively for this GPU. The whole tested nightly
+# is pinned; bump all pins together.
+[feature.therock]
+platforms = ["linux-64-amd"]
+
+[feature.therock.pypi-dependencies]
+torch = { version = "==2.15.0+rocm10.3.0a20261115", extras = ["device-gfx1103"] }
+torchvision = "==0.30.0a0+rocm10.3.0a20261115"
+amd-torch-device-gfx1103 = "==2.15.0+rocm10.3.0a20261115"
+rocm = "==10.3.0a20261115"
+rocm-sdk-core = "==10.3.0a20261115"
+rocm-sdk-libraries = "==10.3.0a20261115"
+rocm-sdk-device-gfx1103 = "==10.3.0a20261115"
+triton = "==3.9.0+git0a6e13e6.rocm10.3.0a20261115"
+
+[feature.therock.pypi-options]
+index-url = "https://nightly.repo.amd.com/rocm/whl-next/"
+extra-index-urls = ["https://pypi.org/simple"]
+index-strategy = "unsafe-best-match"
+prerelease-mode = "if-necessary-or-explicit"
+
+[environments]
+therock = ["therock"]

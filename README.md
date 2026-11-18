@@ -19,6 +19,17 @@ Not a product: no tests, 2D single-channel images only, pretrained models only.
 ./napari.sh [image.tif]   # needs a display
 ```
 
+On a laptop with an AMD Radeon 780M (no NVIDIA GPU):
+
+```bash
+SEGMENTER_AMD=1 ./setup.sh   # four environments, about 25 GB
+./napari.sh [image.tif]
+```
+
+Cellpose and micro-SAM then run on the GPU through AMD's TheRock ROCm wheels
+(`therock` environments, pinned nightly), StarDist on the CPU (`cpu` environment).
+`models.py` and `napari.sh` use whichever variant is installed.
+
 In napari: left dock **Pre-segment** → choose a model, set parameters, press the
 button. The result goes to micro-SAM's `auto_segmentation` layer. In micro-SAM's dock
 set Commit **layer** to `auto_segmentation`, commit, then correct in
@@ -50,6 +61,15 @@ Linux, NVIDIA RTX PRO 6000 Blackwell, 512×512 nuclei image (`skimage.data.human
 Host: micro-SAM 1.8.14, napari 0.9.2, Appose 0.12.0. GPU memory with both Cellpose
 workers warm: 3.4 GB + 1.4 GB. Each model environment is about 6 GB on disk.
 
+Laptop, Ryzen 7 7840U with Radeon 780M (ROCm 10.3 nightly), same image, called from
+the napari environment (micro-SAM 1.9.0):
+
+| Model | Device | First call (worker + model + run) | Warm call |
+|---|---|---|---|
+| Cellpose 4.2.1 | GPU | 38 s | 7.6 s |
+| Cellpose 3.1.1 | GPU | 23 s | 0.8 s |
+| StarDist | CPU | 18 s | 0.4 s |
+
 ## Learned
 
 - Warm calls are fast enough for a per-image annotation loop; the cold start is paid
@@ -66,7 +86,7 @@ workers warm: 3.4 GB + 1.4 GB. Each model environment is about 6 GB on disk.
 
 ## Not looked at
 
-Windows, macOS, AMD GPUs (ROCm); 3D and multichannel images; own trained models;
+Windows, macOS, AMD GPUs other than the 780M; 3D and multichannel images; own trained models;
 what happens when an environment is missing; running all workers and SAM under memory
 pressure.
 

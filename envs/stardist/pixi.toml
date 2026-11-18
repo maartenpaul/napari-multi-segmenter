@@ -1,7 +1,10 @@
 [workspace]
 name = "multi-segmenter-stardist"
 channels = ["conda-forge"]
-platforms = [{ platform = "linux-64", cuda = "12.8" }]
+platforms = [
+  { platform = "linux-64", cuda = "12.8" },
+  { name = "linux-64-amd", platform = "linux-64" },
+]
 
 [dependencies]
 python = "3.11.*"
@@ -10,3 +13,18 @@ python = "3.11.*"
 appose = ">=0.12,<0.13"
 tensorflow = { version = "*", extras = ["and-cuda"] }
 stardist = "*"
+
+# ---- machines without an NVIDIA GPU: `pixi install -e cpu` ----
+[feature.cpu]
+platforms = ["linux-64-amd"]
+
+[feature.cpu.dependencies]
+python = "3.11.*"
+
+[feature.cpu.pypi-dependencies]
+appose = ">=0.12,<0.13"
+tensorflow = "*"
+stardist = "*"
+
+[environments]
+cpu = { features = ["cpu"], no-default-feature = true }
