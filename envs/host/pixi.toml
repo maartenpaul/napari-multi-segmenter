@@ -1,0 +1,13 @@
+[workspace]
+name = "spike-host"
+channels = ["conda-forge"]
+platforms = [{ platform = "linux-64", cuda = "12.8" }]
+
+[dependencies]
+python = "3.12.*"
+
+[pypi-dependencies]
+appose = ">=0.12,<0.13"
+numpy = "*"
+scikit-image = "*"
+pooch = "*"
