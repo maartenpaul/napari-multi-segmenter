@@ -1,5 +1,5 @@
 [workspace]
-name = "spike-cellpose4"
+name = "multi-segmenter-cellpose4"
 channels = ["conda-forge"]
 platforms = [{ platform = "linux-64", cuda = "12.8" }]
 

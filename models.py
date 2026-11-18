@@ -1,4 +1,4 @@
-"""Throwaway spike: call Cellpose 4, Cellpose 3 and StarDist, each in its own pixi
+"""Experiment: call Cellpose 4, Cellpose 3 and StarDist, each in its own pixi
 environment, from one host process through Appose. Reports cold and warm timings."""
 
 import sys

@@ -1,6 +1,6 @@
-# napari pre-segmentation spike
+# napari-multi-segmenter
 
-Throwaway experiment (November 2026): one napari with micro-SAM's 2D annotator, where
+Experiment (November 2026): one napari with micro-SAM's 2D annotator, where
 Cellpose 4, Cellpose 3 and StarDist propose a segmentation that is then reviewed,
 committed and corrected with micro-SAM.
 
@@ -24,9 +24,9 @@ button. The result goes to micro-SAM's `auto_segmentation` layer. In micro-SAM's
 set Commit **layer** to `auto_segmentation`, commit, then correct in
 `committed_objects`.
 
-Without a display: `pixi run --manifest-path envs/host/pixi.toml python spike.py`
-prints cold and warm timings; `SPIKE_SELFTEST=1 ./napari.sh` calls every model from the
-napari environment; `SPIKE_GUITEST=1 xvfb-run -a ./napari.sh` presses the button for
+Without a display: `pixi run --manifest-path envs/host/pixi.toml python models.py`
+prints cold and warm timings; `SELFTEST=1 ./napari.sh` calls every model from the
+napari environment; `GUITEST=1 xvfb-run -a ./napari.sh` presses the button for
 every model.
 
 ## Files
@@ -34,7 +34,7 @@ every model.
 | File | What |
 |---|---|
 | `envs/<name>/pixi.toml` | one environment per model, plus `host` (timings) and `napari` (micro-SAM + napari) |
-| `spike.py` | model scripts (`LOAD`, `RUN`), parameters (`PARAMS`), timing run |
+| `models.py` | model scripts (`LOAD`, `RUN`), parameters (`PARAMS`), timing run |
 | `napari_demo.py` | `Presegmenter` (one warm worker per model) and the dock |
 
 ## Measured

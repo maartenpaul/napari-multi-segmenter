@@ -1,5 +1,5 @@
 [workspace]
-name = "spike-napari"
+name = "multi-segmenter-napari"
 channels = ["conda-forge"]
 platforms = [{ platform = "linux-64", cuda = "12.8" }]
 

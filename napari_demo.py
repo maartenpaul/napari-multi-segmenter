@@ -1,4 +1,4 @@
-"""Throwaway demo: micro-SAM's 2D annotator with a "Pre-segment" dock. Cellpose 4,
+"""Experimental demo: micro-SAM's 2D annotator with a "Pre-segment" dock. Cellpose 4,
 Cellpose 3 and StarDist run in their own pixi environments (Appose workers); the
 result lands in micro-SAM's auto_segmentation layer, to review and commit.
 
@@ -14,7 +14,7 @@ import appose
 import numpy as np
 from skimage import data
 
-from spike import ENVS, LOAD, PARAMS, RUN, defaults
+from models import ENVS, LOAD, PARAMS, RUN, defaults
 
 
 class Presegmenter:
@@ -57,7 +57,7 @@ def main():
         pixels = data.human_mitosis().astype(np.float32)
     pre = Presegmenter()
 
-    if os.environ.get("SPIKE_SELFTEST"):  # no GUI: just prove the calls work from this env
+    if os.environ.get("SELFTEST"):  # no GUI: just prove the calls work from this env
         try:
             for name in LOAD:
                 for _ in range(2):
@@ -127,7 +127,7 @@ def main():
     viewer.window.add_dock_widget(
         Container(widgets=[model, *boxes.values(), button, status]), name="Pre-segment", area="left"
     )
-    if os.environ.get("SPIKE_GUITEST"):  # press the button for each model, no human
+    if os.environ.get("GUITEST"):  # press the button for each model, no human
         from qtpy.QtWidgets import QApplication
 
         app = QApplication.instance()
