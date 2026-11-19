@@ -1,0 +1,10 @@
+name: napari-multi-segmenter
+display_name: Multi segmenter
+contributions:
+  commands:
+    - id: napari-multi-segmenter.presegment
+      python_name: napari_multi_segmenter._widget:PresegmentWidget
+      title: Pre-segment
+  widgets:
+    - command: napari-multi-segmenter.presegment
+      display_name: Pre-segment

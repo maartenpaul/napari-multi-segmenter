@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# Run on a machine with a display: ./napari.sh [image.tif]
-cd "$(dirname "$0")"
+# napari with the Pre-segment dock open: ./napari.sh [image ...]
+# SELFTEST=1 ./napari.sh [model=path ...] presses the button for every model instead.
+here="$(cd "$(dirname "$0")" && pwd)"
 variant=default
-[ -d envs/napari/.pixi/envs/therock ] && variant=therock
-exec pixi run --manifest-path envs/napari/pixi.toml -e "$variant" python napari_demo.py "$@"
+[ -d "$here/envs/napari/.pixi/envs/therock" ] && variant=therock
+run=(pixi run --manifest-path "$here/envs/napari/pixi.toml" -e "$variant")
+if [ -n "${SELFTEST:-}" ]; then exec "${run[@]}" python "$here/selftest.py" "$@"; fi
+exec "${run[@]}" napari "$@" -w napari-multi-segmenter Pre-segment

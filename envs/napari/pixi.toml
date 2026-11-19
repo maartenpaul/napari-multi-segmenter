@@ -2,18 +2,25 @@
 name = "multi-segmenter-napari"
 channels = ["conda-forge"]
 platforms = [
-  { platform = "linux-64", cuda = "12.8" },
+  { name = "linux-64-cuda", platform = "linux-64", cuda = "12.8" },
   { name = "linux-64-amd", platform = "linux-64" },
 ]
 
 [dependencies]
 python = "3.12.*"
-micro_sam = ">=1.8,<1.9"
+micro_sam = ">=2,<3"
 pytorch = ">=2.7.1,<3"
 pyqt = "*"
+zeroc-ice = ">=3.6.5,<3.7"  # for omero-py; no Linux wheels on PyPI
+
+# Without this the solver picks the CPU build of PyTorch.
+[target.linux-64-cuda.dependencies]
+pytorch-gpu = "*"
 
 [pypi-dependencies]
-appose = ">=0.12,<0.13"
+napari-multi-segmenter = { path = "../..", editable = true }
+omero-py = "*"
+napari-omero = { version = "*", extras = ["all"] }
 
 # ---- AMD Radeon 780M (gfx1103): `pixi install -e therock` ----
 # AMD's TheRock nightly wheels, built natively for this GPU. The whole tested nightly
@@ -30,7 +37,9 @@ rocm-sdk-core = "==10.3.0a20261115"
 rocm-sdk-libraries = "==10.3.0a20261115"
 rocm-sdk-device-gfx1103 = "==10.3.0a20261115"
 triton = "==3.9.0+git0a6e13e6.rocm10.3.0a20261115"
-appose = ">=0.12,<0.13"
+napari-multi-segmenter = { path = "../..", editable = true }
+omero-py = "*"
+napari-omero = { version = "*", extras = ["all"] }
 micro-sam = ">=1.9,<2"
 napari = { version = ">=0.9,<0.10", extras = ["pyqt6"] }
 
@@ -45,6 +54,7 @@ scripts = ["../activate-therock.sh"]
 
 [feature.therock.dependencies]
 python = "3.12.*"
+zeroc-ice = ">=3.6.5,<3.7"
 
 [environments]
 therock = { features = ["therock"], no-default-feature = true }
