@@ -7,6 +7,7 @@ name = "napari-multi-segmenter"
 version = "0.0.1"
 description = "Experiment: Cellpose 3/4 and StarDist pre-segmentation in napari, each model in its own environment"
 requires-python = ">=3.11"
+license = "BSD-3-Clause"
 dependencies = ["appose>=0.12,<0.13", "magicgui", "napari", "numpy"]
 
 [project.entry-points."napari.manifest"]
